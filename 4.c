@@ -1,70 +1,70 @@
 #include <stdio.h>
 #define MAX 20
-typedef struct {
-    float w;
-    float p;
-    float r;
-} Kobject;
-
-int n;
-float M;
-
-void ReadObjects(Kobject obj[]);
-void Knapsack(Kobject Kobj[]);
-
-int main() {
-    Kobject obj[MAX];
-    printf("Enter number of objects: ");
-    scanf("%d", &n);
-    ReadObjects(obj);
-    Knapsack(obj);
-    return 0;
+ #define infinity 999
+ int n;
+int a[MAX][MAX];
+void ReadMatrix();
+void Dijkstras (int s);
+int Extract_Min(int S[], int d[]);
+int main()
+{
+int s = 0;
+printf("Enter the number of vertices: ");
+scanf("%d", &n);
+ReadMatrix();
+printf("Enter starting vertex: ");
+scanf("%d", &s);
+Dijkstras(s);
+return 0;
 }
-
-void ReadObjects(Kobject obj[]) {
-    Kobject temp;
-    printf("Enter the max capacity of Knapsack: ");
-    scanf("%f", &M);
-    printf("Enter weight: ");
-    for(int i = 0; i < n; i++)
-        scanf("%f", &obj[i].w);
-    printf("Enter profits: ");
-    for(int i = 0; i < n; i++)
-        scanf("%f", &obj[i].p);
-    for(int i = 0; i < n; i++)
-        obj[i].r = obj[i].p / obj[i].w;
-    for(int i = 0; i < n - 1; i++)
-        for(int j = 0; j < n - 1 - i; j++)
-            if(obj[j].r < obj[j+1].r) {
-                temp = obj[j];
-                obj[j] = obj[j+1];
-                obj[j+1] = temp;
-            }
+void ReadMatrix()
+{
+int i, j;
+printf("Enter the cost
+adjacency Matrix:\n");
+for (i=1; i <= n; i++)
+for (j = 1; j <= n; j++)
+scanf("%d", &a[i][j]);
+ }
+ void Dijkstras (int s)
+ {
+int S[MAX], d[MAX];
+int u, v, i;
+for (i=1; i <= n; i++)
+ {
+S[i] = 0;
+d[i] = a[s][i];
+ }
+S[s] = 1;
+d[s] = 1;
+ i = 2;
+ while (i <= n)
+ {
+ u = Extract_Min(S, d);
+ S[u] = 1;
+ i++;
+ for (v = 1; v <= n; v++)
+ {
+if ((d[u] + a[u] [v] < d[v]) && (S[v] == 0 ))
+ d[v] = d[u] + a[u] [v];
+ }
+ }
+ for (i=1; i <= n; i++)
+{
+if (i!= s)
+printf("%d;%d\n", i, d[i]);
+ }
+ } 
+int Extract_Min(int S[], int d[])
+{
+ int i, j = 1, min infinity; for (i=1; i <= n; i++)
+ {
+if (d[i] < min && S[i] == 0
+)
+ {
+ min = d[i];
+ j = i;
 }
-
-void Knapsack(Kobject Kobj[]) {
-    float X[MAX];
-    float totalprofit = 0;
-    float u = M;
-    int i;
-    for(i = 0; i < n; i++)
-        X[i] = 0;
-    for(i = 0; i < n; i++) {
-        if(Kobj[i].w > u)
-            break;
-        else {
-            X[i] = 1;
-            totalprofit += Kobj[i].p;
-            u -= Kobj[i].w;
-        }
-    }
-    printf("i=%d\n", i);
-    if(i < n) {
-        X[i] = u / Kobj[i].w;
-        totalprofit += (X[i] * Kobj[i].p);
-    }
-    printf("The solution vector, X[]:\n");
-    for(i = 0; i < n; i++)
-        printf("%.2f ", X[i]);
-    printf("\nTotal profit is: %.2f\n", totalprofit);
+ }
+return j;
 }
